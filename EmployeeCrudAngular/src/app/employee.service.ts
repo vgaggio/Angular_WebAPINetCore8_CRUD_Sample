@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
   providedIn: 'root',
 })
 export class EmployeeService {
-  apiUrlEmployee = 'https://localhost:7150/api/Employee';
+  apiUrlEmployee = 'http://localhost:7150/api/Employee';
 
   constructor(private http: HttpClient, private datepipe: DatePipe) {}
   getAllEmployee(): Observable<Employee[]> {
