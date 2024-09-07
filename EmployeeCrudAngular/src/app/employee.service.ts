@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee } from './employee.model';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { environment } from '../environments/environment'; // Importa el environment
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployeeService {
-  apiUrlEmployee = 'http://localhost:7150/api/Employee';
+  apiUrlEmployee = environment.apiUrl;  // Usa el valor de environment
 
   constructor(private http: HttpClient, private datepipe: DatePipe) {}
+
   getAllEmployee(): Observable<Employee[]> {
     return this.http
       .get<Employee[]>(this.apiUrlEmployee + '/getall')
@@ -24,13 +26,14 @@ export class EmployeeService {
                 item.id,
                 item.name,
                 this.datepipe
-                  .transform(item.createdDate, 'dd/MM/yyyy HH:mm:ss')
+                  .transform(item.createdDate, 'dd/MM/yyyy HH:mm:ss',undefined)
                   ?.toString()
               )
           )
         )
       );
   }
+
 
   getEmployeeById(employeeId: number): Observable<Employee> {
     return this.http.get<Employee>(
