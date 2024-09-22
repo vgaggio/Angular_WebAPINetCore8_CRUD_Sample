@@ -5,10 +5,16 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
+// Toastr imports
+import { provideToastr } from 'ngx-toastr'; 
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
-    DatePipe
+    DatePipe,
+    provideAnimations(), // required animations providers
+    provideToastr(), // Toastr providers
   ],
 };

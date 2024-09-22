@@ -31,19 +31,21 @@ export class AddemployeeComponent implements OnInit {
   }
 
   addEmployee(employee: Employee) {
+
     if (employee.name == "")
       return;
 
+    this.submitBtnText = "";
+    this.imgLoadingDisplay = 'inline';
+
     if (employee.id == 0) {
       employee.createdDate = new Date().toISOString();
-      this.employeeService.createEmployee(employee).subscribe(result=>this.router.navigate(['/']));
+      this.employeeService.createEmployee(employee).subscribe(result=>this.router.navigate(['/']), error=>{this.resetButtonState(0)});
     }
     else {
       employee.createdDate = new Date().toISOString();
-      this.employeeService.updateEmployee(employee).subscribe(result=>this.router.navigate(['/']));
+      this.employeeService.updateEmployee(employee).subscribe(result=>this.router.navigate(['/']), error=>{this.resetButtonState(1)});
     }
-    this.submitBtnText = "";
-    this.imgLoadingDisplay = 'inline';
   }
 
   editEmployee(employeeId: number) {
@@ -53,5 +55,14 @@ export class AddemployeeComponent implements OnInit {
       this.submitBtnText = "Edit";
     });
   }
+
+  private resetButtonState(mode: number) {
+    if (mode == 0)
+      this.submitBtnText = "Create";
+    else if (mode == 1)
+      this.submitBtnText = "Edit";
+    
+    this.imgLoadingDisplay = 'none';
+}
 
 }
