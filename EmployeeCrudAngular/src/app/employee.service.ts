@@ -95,7 +95,7 @@ export class EmployeeService {
         })
       );
     } else {
-      return throwError(() => new Error('Error de validación.'));
+      return throwError(() => new Error('Employee name validation failed.'));
     }
   }
 
