@@ -109,13 +109,13 @@ export class EmployeeService {
     return true;
   }
 
-  // Format the name: First name with capital first letter, last name fully uppercase
+  // 2: Formato de nombre
   private formatName(name: string): string {
     const nameParts = name.split(' ');
     const formattedParts = nameParts.map((part, index) => {
-      return index === nameParts.length - 1 // If last part is surname
+      return index === nameParts.length - 1 // Apellido (ultima palabra)
         ? part.toUpperCase() // Surname in uppercase
-        : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // First name parts capitalized
+        : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Nombres
     });
     return formattedParts.join(' ');
   }
