@@ -61,7 +61,6 @@ export class AddemployeeComponent implements OnInit {
       this.submitBtnText = "Create";
     else if (mode == 1)
       this.submitBtnText = "Edit";
-    
     this.imgLoadingDisplay = 'none';
 }
 

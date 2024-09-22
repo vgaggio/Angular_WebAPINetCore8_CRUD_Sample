@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Employee } from './employee.model';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../environments/environment'; // Importa el environment
 import { ToastrService } from 'ngx-toastr'; // Import Toastr
 
@@ -53,6 +55,12 @@ export class EmployeeService {
         this.apiUrlEmployee + '/create',
         employee,
         httpOptions
+      ).pipe(
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error;
+          this.toastr.error(errorMessage, 'Error al crear empleado');
+          return throwError(() => error);
+        })
       );
     } else {
       return throwError(() => new Error('Employee name validation failed.'));
@@ -60,16 +68,22 @@ export class EmployeeService {
   }
   updateEmployee(employee: Employee): Observable<Employee> {
     if (this.isValidEmployeeName(employee.name)) {
-
       employee.name = this.formatName(employee.name);
-
+  
       const httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       };
+  
       return this.http.put<Employee>(
-        this.apiUrlEmployee + '/update',
+        `${this.apiUrlEmployee}/update`,
         employee,
         httpOptions
+      ).pipe(
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error;
+          this.toastr.error(errorMessage, 'Error al actualizar empleado');
+          return throwError(() => error);
+        })
       );
     } else {
       return throwError(() => new Error('Employee name validation failed.'));
