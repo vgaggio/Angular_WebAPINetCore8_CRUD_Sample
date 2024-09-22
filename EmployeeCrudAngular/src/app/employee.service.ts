@@ -86,7 +86,7 @@ export class EmployeeService {
         })
       );
     } else {
-      return throwError(() => new Error('Employee name validation failed.'));
+      return throwError(() => new Error('Error de validación.'));
     }
   }
 
@@ -97,7 +97,6 @@ export class EmployeeService {
 
   // Validaciones a realizar sobre el nombre del empleado
   private isValidEmployeeName(name: string): boolean {
-    const maxLength = 100;
 
     // 1: Chequeo que el nombre no contenga números
     if (/\d/.test(name)) {
