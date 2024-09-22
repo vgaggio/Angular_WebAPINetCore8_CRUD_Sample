@@ -44,8 +44,11 @@ export class EmployeeService {
     );
   }
   createEmployee(employee: Employee) {
+
+    // Verificación de validez
     if (this.isValidEmployeeName(employee.name)) {
 
+      // Formateo de nombre
       employee.name = this.formatName(employee.name);
 
       const httpOptions = {
@@ -56,6 +59,7 @@ export class EmployeeService {
         employee,
         httpOptions
       ).pipe(
+        // Error de API
         catchError((error: HttpErrorResponse) => {
           const errorMessage = error.error;
           this.toastr.error(errorMessage, 'Error al crear empleado');
@@ -67,7 +71,11 @@ export class EmployeeService {
     }
   }
   updateEmployee(employee: Employee): Observable<Employee> {
+
+    // Verificación de validez
     if (this.isValidEmployeeName(employee.name)) {
+
+      // Formateo de nombre
       employee.name = this.formatName(employee.name);
   
       const httpOptions = {
@@ -79,6 +87,7 @@ export class EmployeeService {
         employee,
         httpOptions
       ).pipe(
+        // Error de API
         catchError((error: HttpErrorResponse) => {
           const errorMessage = error.error;
           this.toastr.error(errorMessage, 'Error al actualizar empleado');
@@ -127,7 +136,7 @@ export class EmployeeService {
     const nameParts = name.split(' ');
     const formattedParts = nameParts.map((part, index) => {
       return index === nameParts.length - 1 // Apellido (ultima palabra)
-        ? part.toUpperCase() // Surname in uppercase
+        ? part.toUpperCase()
         : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Nombres
     });
     return formattedParts.join(' ');
