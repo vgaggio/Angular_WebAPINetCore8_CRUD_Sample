@@ -3,31 +3,34 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { EmployeeService } from './employee.service';
 import { Employee } from './employee.model';
 import { DatePipe } from '@angular/common';
+import { ToastrService, ToastrModule } from 'ngx-toastr';
 
 describe('EmployeeService', () => {
   let service: EmployeeService;
   let httpMock: HttpTestingController;
   let datePipe: DatePipe;
+  let toastr: ToastrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, ToastrModule.forRoot()],
       providers: [
         EmployeeService,
-        DatePipe
+        DatePipe,
+        ToastrService
       ]
     });
 
     service = TestBed.inject(EmployeeService);
     httpMock = TestBed.inject(HttpTestingController);
     datePipe = TestBed.inject(DatePipe);
+    toastr = TestBed.inject(ToastrService);
+    spyOn(toastr, 'error'); // Spy on toastr "error" method
   });
 
   afterEach(() => {
     httpMock.verify();
   });
-
-
 
   it('should retrieve all employees', () => {
     const today = new Date('2024/09/12 17:43:50');
@@ -54,5 +57,120 @@ describe('EmployeeService', () => {
     req.flush(dummyEmployees);
   });
 
+  it('should fail to create employee when name contains numbers', () => {
+    const invalidEmployee = new Employee (1, 'John 1', '');
+    service.createEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('El nombre del empleado no debe contener números.', 'Error de validación');
+
+  });
+
+  it('should fail to create employee when a part of name is of length 1', () => {
+    const invalidEmployee = new Employee (1, 'J D', '');
+    service.createEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('Los nombres y apellidos del empleado debe tener una longitud mayor a 1 letra.', 'Error de validación');
+
+  });
+
+  it('should fail to create employee when name is longer than 100', () => {
+    const invalidEmployee = new Employee (1, 'A'.repeat(120), '');
+    service.createEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('El nombre del empleado no puede contener más de 100 letras.', 'Error de validación');
+
+  });
+
+  it('should format employee name when creating an employee', () => {
+    const employee = new Employee(1, 'john doe', '');
+  
+    const formatNameSpy = spyOn<any>(service, 'formatName').and.callThrough(); 
+  
+    service.createEmployee(employee).subscribe((response) => {
+      expect(employee.name).toEqual('John DOE');
+    });
+  
+    const req = httpMock.expectOne(`${service.apiUrlEmployee}/create`);
+    expect(req.request.method).toBe('POST');
+  
+    // Simulate a successful response from the backend
+    req.flush(employee);
+    
+    expect(formatNameSpy).toHaveBeenCalledWith('john doe');
+  });
+
+  // ------------------------------------------------------------------
+
+  it('should fail to update employee when name contains numbers', () => {
+    const invalidEmployee = new Employee (1, 'John 1', '');
+    service.updateEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('El nombre del empleado no debe contener números.', 'Error de validación');
+
+  });
+
+  it('should fail to update employee when a part of name is of length 1', () => {
+    const invalidEmployee = new Employee (1, 'J D', '');
+    service.updateEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('Los nombres y apellidos del empleado debe tener una longitud mayor a 1 letra.', 'Error de validación');
+
+  });
+
+  it('should fail to update employee when name is longer than 100', () => {
+    const invalidEmployee = new Employee (1, 'A'.repeat(120), '');
+    service.updateEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('El nombre del empleado no puede contener más de 100 letras.', 'Error de validación');
+
+  });
+
+  it('should format employee name when updating an employee', () => {
+    const employee = new Employee(1, 'john doe', '');
+  
+    const formatNameSpy = spyOn<any>(service, 'formatName').and.callThrough(); 
+  
+    service.updateEmployee(employee).subscribe((response) => {
+      expect(employee.name).toEqual('John DOE');
+    });
+  
+    const req = httpMock.expectOne(`${service.apiUrlEmployee}/update`);
+    expect(req.request.method).toBe('PUT');
+  
+    // Simulate a successful response from the backend
+    req.flush(employee);
+    
+    expect(formatNameSpy).toHaveBeenCalledWith('john doe');
+  });
 
 });
