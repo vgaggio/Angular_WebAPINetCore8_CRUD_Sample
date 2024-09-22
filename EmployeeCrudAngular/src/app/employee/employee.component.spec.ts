@@ -1,25 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { EmployeeComponent } from './employee.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DatePipe } from '@angular/common';
 
 describe('EmployeeComponent', () => {
-  let component: EmployeeComponent;
-  let fixture: ComponentFixture<EmployeeComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ EmployeeComponent ]
-    })
-    .compileComponents();
-  });
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmployeeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      imports: [EmployeeComponent, HttpClientTestingModule],
+      providers: [DatePipe] // Añade DatePipe a los proveedores
+    });
   });
 
   it('should create', () => {
+    const fixture = TestBed.createComponent(EmployeeComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });
