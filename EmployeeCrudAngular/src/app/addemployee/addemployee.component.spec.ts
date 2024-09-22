@@ -4,13 +4,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs'; // para simular observables
 import { DatePipe } from '@angular/common';
+import { ToastrService, ToastrModule } from 'ngx-toastr';
 
 describe('AddemployeeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AddemployeeComponent, HttpClientTestingModule],
+      imports: [AddemployeeComponent, HttpClientTestingModule, ToastrModule.forRoot()],
       providers: [
         DatePipe,
+        ToastrService,
         {
           provide: ActivatedRoute, // Simula ActivatedRoute
           useValue: {
