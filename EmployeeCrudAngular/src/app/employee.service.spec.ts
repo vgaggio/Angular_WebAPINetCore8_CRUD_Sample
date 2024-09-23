@@ -114,6 +114,33 @@ describe('EmployeeService', () => {
     expect(formatNameSpy).toHaveBeenCalledWith('john doe');
   });
 
+  it('should handle API error on createEmployee', () => {
+    const employee = new Employee(1, 'John Doe', '');
+  
+    // Simulate an error message from the backend
+    const errorMessage = 'El empleado ya se encuentra registrado';
+    const errorResponse = { status: 400, statusText: 'Bad Request' };
+  
+    // Call the service method
+    service.createEmployee(employee).subscribe({
+      next: () => fail('Expected an error, but got success response'),
+      error: (error) => {
+        expect(error.status).toBe(400);
+        expect(error.statusText).toBe('Bad Request');
+      }
+    });
+  
+    // Expect an API call
+    const req = httpMock.expectOne(`${service.apiUrlEmployee}/create`);
+    expect(req.request.method).toBe('POST');
+  
+    // Simulate an API error response (passing the error as a string directly)
+    req.flush(errorMessage, errorResponse);
+  
+    // Verify that the ToastrService error was called
+    expect(toastr.error).toHaveBeenCalledWith(errorMessage, 'Error al crear empleado');
+  });
+
   // ------------------------------------------------------------------
 
   it('should fail to update employee when name contains numbers', () => {
@@ -171,6 +198,33 @@ describe('EmployeeService', () => {
     req.flush(employee);
     
     expect(formatNameSpy).toHaveBeenCalledWith('john doe');
+  });
+
+  it('should handle API error on updateEmployee', () => {
+    const employee = new Employee(1, 'John Doe', '');
+  
+    // Simulate an error message from the backend
+    const errorMessage = 'El empleado ya se encuentra registrado';
+    const errorResponse = { status: 400, statusText: 'Bad Request' };
+  
+    // Call the service method
+    service.updateEmployee(employee).subscribe({
+      next: () => fail('Expected an error, but got success response'),
+      error: (error) => {
+        expect(error.status).toBe(400);
+        expect(error.statusText).toBe('Bad Request');
+      }
+    });
+  
+    // Expect an API call
+    const req = httpMock.expectOne(`${service.apiUrlEmployee}/update`);
+    expect(req.request.method).toBe('PUT');
+  
+    // Simulate an API error response (passing the error as a string directly)
+    req.flush(errorMessage, errorResponse);
+  
+    // Verify that the ToastrService error was called
+    expect(toastr.error).toHaveBeenCalledWith(errorMessage, 'Error al actualizar empleado');
   });
 
 });
