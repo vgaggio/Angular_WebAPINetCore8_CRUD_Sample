@@ -66,6 +66,27 @@ namespace EmployeeCrudApi.Controllers
             return name.Length <= 100;
         }
 
+        // 6: Chequeo de repetición excesiva de caracteres
+        private bool NameHasExcessiveRepeatedCharacters(string name)
+        {
+            int counter = 1;
+            for (int i = 1; i < name.Length; i++)
+            {
+                if (name[i] == name[i-1])
+                {
+                    counter++;
+                    if (counter > 2)
+                        return true;
+                }
+                else
+                {
+                    counter = 1;
+                }
+            }
+
+            return false;
+        }
+
         [HttpGet]
         public async Task<List<Employee>> GetAll()
         {
@@ -105,6 +126,12 @@ namespace EmployeeCrudApi.Controllers
                 return BadRequest("El nombre del empleado no puede contener más de 100 letras.");
             }
 
+            // 6: Se verifica que el nombre no contenga caracteres repetidos de forma excesiva
+            if (NameHasExcessiveRepeatedCharacters(employee.Name))
+            {
+                return BadRequest("El nombre del empleado contiene caracteres repetidos de forma excesiva.");
+            }
+
 
             employee.CreatedDate = DateTime.Now;
 
@@ -141,6 +168,12 @@ namespace EmployeeCrudApi.Controllers
             if(!IsNameLengthValid(employee.Name))
             {
                 return BadRequest("El nombre del empleado no puede contener más de 100 letras.");
+            }
+
+            // 6: Se verifica que el nombre no contenga caracteres repetidos de forma excesiva
+            if (NameHasExcessiveRepeatedCharacters(employee.Name))
+            {
+                return BadRequest("El nombre del empleado contiene caracteres repetidos de forma excesiva.");
             }
 
             Employee employeeToUpdate = await _context.Employees.FindAsync(employee.Id);

@@ -127,6 +127,12 @@ export class EmployeeService {
       this.toastr.error('El nombre del empleado no puede contener más de 100 letras.', 'Error de validación');
       return false;
     }
+    
+    // 6: Se verifica la ausencia de caracteres repetidos excesivamente
+    if (this.hasExcessiveRepeatedCharacters(name)) {
+      this.toastr.error('El nombre del empleado no debe contener caracteres repetidos de manera excesiva.', 'Error de validación');
+      return false;
+    }
 
     return true;
   }
@@ -140,5 +146,23 @@ export class EmployeeService {
         : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(); // Nombres
     });
     return formattedParts.join(' ');
+  }
+
+  // 6: Chequeo de repetición excesiva de caracteres
+  private hasExcessiveRepeatedCharacters(name: string): boolean {
+    let repetitionCount = 1;
+
+    for (let i = 1; i < name.length; i++) {
+      if (name[i] === name[i - 1]) {
+        repetitionCount++;
+        if (repetitionCount > 2) {
+          return true;
+        }
+      } else {
+        repetitionCount = 1;
+      }
+    }
+
+    return false;
   }
 }

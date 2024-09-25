@@ -150,6 +150,22 @@ namespace EmployeeCrudApi.Tests
         }
 
         [Fact]
+        public async Task Create_ReturnsBadRequest_NameContainsRepeatedCharacters()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var controller = new EmployeeController(context);
+
+            var newEmployee = new Employee { Id = 4, Name = "New Employeeeee" };
+
+            // Act
+            var result = await controller.Create(newEmployee);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
         public async Task Update_UpdatesEmployee()
         {
             // Arrange
@@ -250,6 +266,22 @@ namespace EmployeeCrudApi.Tests
 
             // Act
             var result = await controller.Update(updatedEmployee);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task Updates_ReturnsBadRequest_NameContainsRepeatedCharacters()
+        {
+            // Arrange
+            var context = GetInMemoryDbContext();
+            var controller = new EmployeeController(context);
+
+            var newEmployee = new Employee { Id = 4, Name = "New Employeeeee" };
+
+            // Act
+            var result = await controller.Update(newEmployee);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);

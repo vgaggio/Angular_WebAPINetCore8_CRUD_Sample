@@ -1,22 +1,24 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 129.0.0.0 (Mac OS 10.15.7)" package="" timestamp="2024-09-23T00:11:51" id="0" hostname="MacBook-Pro-de-Maximo.local" tests="14" errors="0" failures="0" time="0.06">
+<testsuite name="Chrome Headless 129.0.0.0 (Mac OS 10.15.7)" package="" timestamp="2024-09-25T02:22:20" id="0" hostname="MacBook-Pro-de-Maximo.local" tests="16" errors="0" failures="0" time="0.058">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/129.0.0.0 Safari/537.36"/>
   </properties>
-  <testcase name="AddemployeeComponent should create" time="0.034" classname="AddemployeeComponent"/>
-  <testcase name="EmployeeComponent should create" time="0.012" classname="EmployeeComponent"/>
-  <testcase name="AppComponent should render title" time="0.003" classname="AppComponent"/>
-  <testcase name="EmployeeService should retrieve all employees" time="0.003" classname="EmployeeService"/>
-  <testcase name="EmployeeService should fail to create employee when a part of name is of length 1" time="0.001" classname="EmployeeService"/>
-  <testcase name="EmployeeService should fail to create employee when name contains numbers" time="0.001" classname="EmployeeService"/>
-  <testcase name="EmployeeService should handle API error on updateEmployee" time="0.001" classname="EmployeeService"/>
-  <testcase name="EmployeeService should fail to update employee when name is longer than 100" time="0.001" classname="EmployeeService"/>
-  <testcase name="EmployeeService should format employee name when creating an employee" time="0" classname="EmployeeService"/>
+  <testcase name="AppComponent should render title" time="0.023" classname="AppComponent"/>
+  <testcase name="AddemployeeComponent should create" time="0.013" classname="AddemployeeComponent"/>
+  <testcase name="EmployeeService should handle API error on createEmployee" time="0.003" classname="EmployeeService"/>
   <testcase name="EmployeeService should fail to update employee when a part of name is of length 1" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should format employee name when creating an employee" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should fail to update employee when name contains numbers" time="0.001" classname="EmployeeService"/>
   <testcase name="EmployeeService should fail to create employee when name is longer than 100" time="0.001" classname="EmployeeService"/>
-  <testcase name="EmployeeService should fail to update employee when name contains numbers" time="0" classname="EmployeeService"/>
-  <testcase name="EmployeeService should format employee name when updating an employee" time="0.001" classname="EmployeeService"/>
-  <testcase name="EmployeeService should handle API error on createEmployee" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should fail to create employee when name contains repeated characters" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should fail to create employee when a part of name is of length 1" time="0" classname="EmployeeService"/>
+  <testcase name="EmployeeService should fail to create employee when name contains numbers" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should retrieve all employees" time="0.002" classname="EmployeeService"/>
+  <testcase name="EmployeeService should fail to update employee when name is longer than 100" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should format employee name when updating an employee" time="0" classname="EmployeeService"/>
+  <testcase name="EmployeeService should fail to update employee when name contains repeated characters" time="0.001" classname="EmployeeService"/>
+  <testcase name="EmployeeService should handle API error on updateEmployee" time="0" classname="EmployeeService"/>
+  <testcase name="EmployeeComponent should create" time="0.009" classname="EmployeeComponent"/>
   <system-out>
     <![CDATA[Chrome Headless 129.0.0.0 (Mac OS 10.15.7) LOG: 'Employee createdDate:', '12/09/2024 17:43:50'
 ,Chrome Headless 129.0.0.0 (Mac OS 10.15.7) LOG: 'Dummy employee createdDate:', '12/09/2024 17:43:50'

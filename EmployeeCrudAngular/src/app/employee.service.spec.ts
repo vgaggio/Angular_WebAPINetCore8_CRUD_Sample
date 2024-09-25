@@ -141,6 +141,19 @@ describe('EmployeeService', () => {
     expect(toastr.error).toHaveBeenCalledWith(errorMessage, 'Error al crear empleado');
   });
 
+  it('should fail to create employee when name contains repeated characters', () => {
+    const invalidEmployee = new Employee (1, 'Joooohn', '');
+    service.createEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('El nombre del empleado no debe contener caracteres repetidos de manera excesiva.', 'Error de validación');
+
+  });
+
   // ------------------------------------------------------------------
 
   it('should fail to update employee when name contains numbers', () => {
@@ -225,6 +238,19 @@ describe('EmployeeService', () => {
   
     // Verify that the ToastrService error was called
     expect(toastr.error).toHaveBeenCalledWith(errorMessage, 'Error al actualizar empleado');
+  });
+
+  it('should fail to update employee when name contains repeated characters', () => {
+    const invalidEmployee = new Employee (1, 'Joooohn', '');
+    service.updateEmployee(invalidEmployee).subscribe({
+      next: () => fail('Expected validation error'),
+      error: (error: Error) => {
+        expect(error.message).toContain('Employee name validation failed.');
+      }
+    });
+
+    expect(toastr.error).toHaveBeenCalledWith('El nombre del empleado no debe contener caracteres repetidos de manera excesiva.', 'Error de validación');
+
   });
 
 });
