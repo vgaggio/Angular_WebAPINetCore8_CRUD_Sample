@@ -10,6 +10,7 @@ COPY ./api/ .
 EXPOSE 80
 EXPOSE 443
 
+
 # Configurar las URLs para que la aplicación escuche en HTTP y HTTPS
 ENV ASPNETCORE_URLS="http://+:80"
 #;https://+:443"

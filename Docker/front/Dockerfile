@@ -11,6 +11,7 @@ RUN rm -rf ./*
 COPY ./ .
 
 
+
 # Exponer el puerto 80 para servir la aplicación Angular
 EXPOSE 80
 
