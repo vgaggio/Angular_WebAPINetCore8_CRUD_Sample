@@ -10,6 +10,7 @@ RUN rm -rf ./*
 # Copiar los archivos compilados de Angular al directorio de nginx
 COPY ./ .
 
+
 # Exponer el puerto 80 para servir la aplicación Angular
 EXPOSE 80
 

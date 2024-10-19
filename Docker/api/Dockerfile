@@ -14,6 +14,7 @@ EXPOSE 443
 ENV ASPNETCORE_URLS="http://+:80"
 #;https://+:443"
 
+
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["dotnet", "EmployeeCrudApi.dll"]
 #CMD ["/bin/bash"]
